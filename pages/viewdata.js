@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react"
 
-
+function sleep(ms){
+  return new Promise( resolver => setTimeout(resolver, ms));
+ };
 
 export default function ViewData() {
 
@@ -14,12 +16,18 @@ export default function ViewData() {
         setUserData(dataResJSON)
       } else if(dataRes.status === 500) {
         setUserData("internal error")
+      } else {
+        setUserData("untrusted")
+        await sleep(5000)
+        window.location.replace("http://localhost:3000/");
       }
     })()
   }, [])
 
   if (userData === undefined) return <p>Loading...</p>
   if (userData === "internal error") return <p>Internal Error</p>
+  if (userData === "untrusted") return <p>untrusted</p>
+  
 
   return (
     <>
