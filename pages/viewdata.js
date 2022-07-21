@@ -1,18 +1,29 @@
-import useSWR from 'swr'
+import React, { useState, useEffect } from "react"
 
-const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
-export default function ViewData () {
-    const { data, error } = useSWR('http://localhost:8000/viewdata', fetcher)
 
-    if (error) {
-        return <div>Failed to load</div>
-    } 
-    if (!data) return <div>Loading...</div>
-  
-    return (
-      <div>
-        <h1>{data.status}</h1>
-      </div>
-    )
+export default function ViewData() {
+
+  const [userData, setUserData] = useState(undefined)
+
+  useEffect(() => {
+    (async function () {
+      let dataRes = await fetch('http://localhost:8000/viewdata', { credentials: 'include' })
+      if (dataRes.status === 200) {
+        let dataResJSON = dataRes.json()
+        setUserData(dataResJSON)
+      } else if(dataRes.status === 500) {
+        setUserData("internal error")
+      }
+    })()
+  }, [])
+
+  if (userData === undefined) return <p>Loading...</p>
+  if (userData === "internal error") return <p>Internal Error</p>
+
+  return (
+    <>
+      good
+    </>
+  )
 }
