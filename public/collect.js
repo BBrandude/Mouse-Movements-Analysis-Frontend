@@ -39,7 +39,7 @@ async function submit() {
         movements.push(mouseMovement)
     })
     await sleep(1)
-    fetch("http://localhost:8000/proccessdata", requestOptions)
+    fetch("http://localhost:8000/api/proccessdata", requestOptions)
 }
 
 submitButton.addEventListener('click', e => {
