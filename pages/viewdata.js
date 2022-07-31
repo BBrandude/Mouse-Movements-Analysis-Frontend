@@ -20,7 +20,7 @@ export default function ViewData() {
       } else {
         setUserData("untrusted")
         await sleep(5000)
-        window.location.replace("http://localhost:3000/");
+        window.location.replace("http://" + location.host.split('.').reverse()[0]);
       }
     })()
   }, [])
@@ -31,38 +31,47 @@ export default function ViewData() {
 
 
   return (
-    <div className="overflow-x-auto">
-      <table className="table w-full">
-        <thead>
-          <tr>
-            <th>Statistic</th>
-            <th>You</th>
-            <th>Average</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Standard Deviation From Linear Line (from point a to b)</td>
-            <td>{userData.standardDeviation}</td>
-            <td>Coming Soon...</td>
-          </tr>
-          <tr>
-            <td>Average Distance Per Movement (pixels)</td>
-            <td>{userData.averagMovementDistance}</td>
-            <td>Coming Soon...</td>
-          </tr>
-          <tr>
-            <td>Average Time In Between Movements (microseconds)</td>
-            <td>{userData.averageMovementTime}</td>
-            <td>Coming Soon...</td>
-          </tr>
-          <tr>
-            <td>Average Movement Distance(pixels) Per Microsecond</td>
-            <td>{userData.AverageMovementDistanceOverTime}</td>
-            <td>Coming Soon...</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <>
+      <h1>{(function () {
+        if (Date.now() - userData.data < 8000) {
+          return "Thank you for submitting your data just now"
+        } else {
+          return `Thank you for submitting data ${(Date.now() - userData.data) / 1000} seconds ago`
+        }
+      }())}</h1>
+      <div className="overflow-x-auto">
+        <table className="table w-full">
+          <thead>
+            <tr>
+              <th>Statistic</th>
+              <th>You</th>
+              <th>Average</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Standard Deviation From Linear Line (from point a to b)</td>
+              <td>{userData.standardDeviation}</td>
+              <td>Coming Soon...</td>
+            </tr>
+            <tr>
+              <td>Average Distance Per Movement (pixels)</td>
+              <td>{userData.averagMovementDistance}</td>
+              <td>Coming Soon...</td>
+            </tr>
+            <tr>
+              <td>Average Time In Between Movements (microseconds)</td>
+              <td>{userData.averageMovementTime}</td>
+              <td>Coming Soon...</td>
+            </tr>
+            <tr>
+              <td>Average Movement Distance(pixels) Per Microsecond</td>
+              <td>{userData.AverageMovementDistanceOverTime}</td>
+              <td>Coming Soon...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </>
   )
 }
